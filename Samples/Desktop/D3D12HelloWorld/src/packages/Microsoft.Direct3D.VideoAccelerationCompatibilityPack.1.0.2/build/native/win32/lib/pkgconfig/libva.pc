@@ -1,0 +1,13 @@
+prefix=D:/a/_work/1/a/installdir
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+libva_version=2.19.0
+va_api_version=1.19.0
+driverdir=D:/a/_work/1/a/installdir/bin
+
+Name: va
+Description: Userspace Video Acceleration (VA) core interface
+Version: 1.19.0
+Libs: -L${libdir} -lva
+Cflags: -I${includedir}
