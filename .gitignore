@@ -21,3 +21,4 @@
 *.opendb
 Samples/Desktop/D3D12HelloWorld/src/HelloVAResourceInterop/*.h264
 Samples/Desktop/D3D12HelloWorld/src/HelloVAEncode/*.h264
+Samples/build.cmd
