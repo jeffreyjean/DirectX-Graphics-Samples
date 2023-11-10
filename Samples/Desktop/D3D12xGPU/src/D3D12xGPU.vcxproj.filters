@@ -100,9 +100,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <CustomBuild Include="PostprocessPass.hlsl">
       <Filter>Assets\Shaders</Filter>
     </CustomBuild>
@@ -117,5 +114,8 @@
     <CustomBuild Include="SquidRoom.bin">
       <Filter>Assets\Scene</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
