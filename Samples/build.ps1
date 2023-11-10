@@ -21,7 +21,7 @@ else {
     return 0
 }
 
-$build = "C:\github\DirectX-Graphics-Samples\build.cmd"
+$build = "C:\github\DirectX-Graphics-Samples\samples\build.cmd"
 New-Item -ItemType File -Path $build -Force
 
 # Search for files with the specified extension recursively
@@ -57,7 +57,7 @@ foreach ($file in $files) {
 }
 
 # compile all projects
-$folderPath = "C:\github\DirectX-Graphics-Samples"
+$folderPath = "C:\github\DirectX-Graphics-Samples\samples"
 #$folderPath = "C:\github\DirectX-Graphics-Samples\Samples\Desktop\D3D12Bundles\src"
 $extension = ".sln"  # Replace with your desired file extension, e.g., ".pdf", ".docx", etc.
 $files = Get-ChildItem -Path $folderPath -Recurse -Filter "*$extension" | Where-Object { !$_.PSIsContainer }
