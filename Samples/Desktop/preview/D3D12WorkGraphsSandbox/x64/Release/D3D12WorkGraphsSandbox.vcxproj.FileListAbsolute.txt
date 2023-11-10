@@ -1,7 +1,0 @@
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\D3D12\D3D12Core.dll
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\D3D12\D3D12Core.pdb
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\D3D12\D3D12SDKLayers.dll
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\D3D12\D3D12SDKLayers.pdb
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\dxcompiler.dll
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\dxcompiler.pdb
-C:\github\DirectX-Graphics-Samples\Samples\Desktop\preview\D3D12WorkGraphsSandbox\x64\Release\D3D12WorkGraphsSandbox.exe
