@@ -55,7 +55,11 @@ foreach ($file in $files) {
         Write-Host "Architecture : $architecture not found in the line."
     }
 }
+# Start time
+$startTime = 'set \"startTime=%time: =0%\"'
+$startTime | Out-File -FilePath $build -Append -Encoding Ascii
 
+}
 # compile all projects
 $folderPath = "C:\github\DirectX-Graphics-Samples\samples"
 #$folderPath = "C:\github\DirectX-Graphics-Samples\Samples\Desktop\D3D12Bundles\src"
@@ -67,3 +71,13 @@ foreach ($file in $files) {
     $compileCommand | Out-File -FilePath $build -Append -Encoding Ascii
 }
 
+# End time
+$endTime = 'set \"endTime=%time: =0%\"'
+$endTime | Out-File -FilePath $build -Append -Encoding Ascii
+# Duration time
+$echoStart = 'echo Start:    %startTime%'
+$echoStart | Out-File -FilePath $build -Append -Encoding Ascii
+$echoEnd   = 'echo End:      %endTime%'
+$echoEnd | Out-File -FilePath $build -Append -Encoding Ascii
+$echoDuration = 'echo Elapsed:  %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%'
+$echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
