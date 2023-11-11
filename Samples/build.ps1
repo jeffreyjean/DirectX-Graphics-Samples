@@ -55,6 +55,10 @@ foreach ($file in $files) {
         Write-Host "Architecture : $architecture not found in the line."
     }
 }
+# echo off
+$echoOff = '@echo off'
+$echoOff | Out-File -FilePath $build -Append -Encoding Ascii
+
 # Start time
 $startTime = 'set "startTime=%time: =0%"'
 $startTime | Out-File -FilePath $build -Append -Encoding Ascii
@@ -69,14 +73,36 @@ foreach ($file in $files) {
     $compileCommand = "MSBuild " + $file.FullName + " -t:REbuild -p:Configuration=Release;Platform=x64 -t:Clean -m:" + $CoreNumber
     $compileCommand | Out-File -FilePath $build -Append -Encoding Ascii
 }
+<#
+set "endTime=%time: =0%"
+rem Get elapsed time:
+set "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"
+set /A "elap=((((10!end:%time:~2,1%=%%100)*60+1!%%100)-((((10!start:%time:~2,1%=%%100)*60+1!%%100), elap-=(elap>>31)*24*60*60*100"
+
+rem Convert elapsed time to HH:MM:SS:CC format:
+set /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=elap/60+100"
+
+echo Start:    %startTime%
+echo End:      %endTime%
+echo Elapsed:  %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
+#>
 
 # End time
 $endTime = 'set "endTime=%time: =0%"'
 $endTime | Out-File -FilePath $build -Append -Encoding Ascii
+
+# Get elapsed time
+$elapsedTime = 'set "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"'
+$elapsedTime | Out-File -FilePath $build -Append -Encoding Ascii
+$elapsedTime = 'set /A "elap=((((10!end:%time:~2,1%=%%100)*60+1!%%100)-((((10!start:%time:~2,1%=%%100)*60+1!%%100), elap-=(elap>>31)*24*60*60*100"'
+$elapsedTime | Out-File -FilePath $build -Append -Encoding Ascii
+$elapsedTime = 'set /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=elap/60+100"'
+$elapsedTime | Out-File -FilePath $build -Append -Encoding Ascii
+
 # Duration time
-$echoStart = 'echo Start:    %startTime%'
-$echoStart | Out-File -FilePath $build -Append -Encoding Ascii
-$echoEnd   = 'echo End:      %endTime%'
-$echoEnd | Out-File -FilePath $build -Append -Encoding Ascii
+$echoDuration = 'echo Start:    %startTime%'
+$echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
+$echoDuration = 'echo End:      %endTime%'
+$echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
 $echoDuration = 'echo Elapsed:  %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
