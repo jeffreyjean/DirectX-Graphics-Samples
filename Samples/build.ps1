@@ -56,10 +56,9 @@ foreach ($file in $files) {
     }
 }
 # Start time
-$startTime = 'set \"startTime=%time: =0%\"'
+$startTime = 'set "startTime=%time: =0%"'
 $startTime | Out-File -FilePath $build -Append -Encoding Ascii
 
-}
 # compile all projects
 $folderPath = "C:\github\DirectX-Graphics-Samples\samples"
 #$folderPath = "C:\github\DirectX-Graphics-Samples\Samples\Desktop\D3D12Bundles\src"
@@ -72,7 +71,7 @@ foreach ($file in $files) {
 }
 
 # End time
-$endTime = 'set \"endTime=%time: =0%\"'
+$endTime = 'set "endTime=%time: =0%"'
 $endTime | Out-File -FilePath $build -Append -Encoding Ascii
 # Duration time
 $echoStart = 'echo Start:    %startTime%'
