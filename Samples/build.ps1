@@ -10,7 +10,7 @@ write-output "CoreNumber : $CoreNumber"
 $visualStudioPath = "C:\Program Files\Microsoft Visual Studio"
 if ($SystemType -match "x64-based PC")
 {
-    $msbuildName = "vcvars64.bat"
+    $msbuildName = "vcvars32.bat"
     $architecture = "amd64"
 } elseif ($SystemType -match "ARM64-based PC")
 {
@@ -38,7 +38,7 @@ foreach ($file in $files) {
     #>
     
     # Add batch command into build script
-    $buildEnvSetup = '"' + $file.FullName + '"' 
+    $buildEnvSetup = 'call "' + $file.FullName + '"' 
     $buildEnvSetup | Out-File -FilePath $build -Append -Encoding Ascii
     break
 }
@@ -72,6 +72,19 @@ foreach ($file in $files) {
     Write-Host $file
     $compileCommand = "MSBuild " + $file.FullName + " -t:REbuild -p:Configuration=Release;Platform=x64 -t:Clean -m:" + $CoreNumber
     $compileCommand | Out-File -FilePath $build -Append -Encoding Ascii
+    $executableName = $file.Name.Substring(0, $file.Name.Length-4) + '.exe'
+    Write-Host $executableName
+    $executablePath = $file.Directory.FullName + '\bin\x64\Release\' + $executableName
+    Write-Host $executablePath
+    <#
+    Execute the binary, wait for 10 seconds, kill the task
+    #>
+    $execution = 'start ' + $executablePath + ' /s'
+    $execution | Out-File -FilePath $build -Append -Encoding Ascii
+    $timeout = 'timeout /t 15'
+    $timeout | Out-File -FilePath $build -Append -Encoding Ascii
+    $killTask = 'Taskkill /im ' + $executableName + ' /f'
+    $killTask | Out-File -FilePath $build -Append -Encoding Ascii
 }
 <#
 set "endTime=%time: =0%"
@@ -91,18 +104,8 @@ echo Elapsed:  %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
 $endTime = 'set "endTime=%time: =0%"'
 $endTime | Out-File -FilePath $build -Append -Encoding Ascii
 
-# Get elapsed time
-$elapsedTime = 'set "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"'
-$elapsedTime | Out-File -FilePath $build -Append -Encoding Ascii
-$elapsedTime = 'set /A "elap=((((10!end:%time:~2,1%=%%100)*60+1!%%100)-((((10!start:%time:~2,1%=%%100)*60+1!%%100), elap-=(elap>>31)*24*60*60*100"'
-$elapsedTime | Out-File -FilePath $build -Append -Encoding Ascii
-$elapsedTime = 'set /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=elap/60+100"'
-$elapsedTime | Out-File -FilePath $build -Append -Encoding Ascii
-
 # Duration time
 $echoDuration = 'echo Start:    %startTime%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
 $echoDuration = 'echo End:      %endTime%'
-$echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
-$echoDuration = 'echo Elapsed:  %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
