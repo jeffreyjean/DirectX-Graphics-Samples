@@ -146,10 +146,13 @@ echo Elapsed:  %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1%
 $endTime = 'set "endTime=%time: =0%"'
 $endTime | Out-File -FilePath $build -Append -Encoding Ascii
 
+$update = 'echo Finish %userInput% cycles'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+
 # Duration time
 $echoDuration = 'echo Start:    %startTime%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
-$echoDuration = 'echo End:      %endTime%'
+$echoDuration = 'echo End  :    %endTime%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
 $update = 'endlocal'
 $update | Out-File -FilePath $build -Append -Encoding Ascii
