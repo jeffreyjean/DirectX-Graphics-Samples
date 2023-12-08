@@ -59,9 +59,47 @@ foreach ($file in $files) {
 $echoOff = '@echo off'
 $echoOff | Out-File -FilePath $build -Append -Encoding Ascii
 
+$update = 'setlocal enabledelayedexpansion'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+
+$update = 'REM Prompt the user for input'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+$update = 'set /p userInput=Enter cycle number: '
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+
+$update = 'REM Loop based on the user input'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+$update = 'echo Looping %userInput% times'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+<#
+REM Check if the input is empty or not a number
+if "%userInput%"=="" (
+    echo No input provided.
+    exit /b
+) else if not "%userInput%" geq "0" (
+    echo Invalid input. Please enter a valid number.
+    exit /b
+)
+
+REM Loop based on the user input
+echo Looping %userInput% times:
+for /l %%i in (1, 1, %userInput%) do (
+    echo Iteration %%i
+    REM Add your commands here that you want to execute in the loop
+)
+
+endlocal
+#>
+
 # Start time
 $startTime = 'set "startTime=%time: =0%"'
 $startTime | Out-File -FilePath $build -Append -Encoding Ascii
+
+
+$update = 'for /l %%i in (1, 1, %userInput%) do ('
+$update | Out-File -FilePath $build -Append -Encoding Ascii
+$update = '    echo Iteration %%i'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
 
 # compile all projects
 $folderPath = "C:\github\DirectX-Graphics-Samples\samples"
@@ -70,7 +108,7 @@ $extension = ".sln"  # Replace with your desired file extension, e.g., ".pdf", "
 $files = Get-ChildItem -Path $folderPath -Recurse -Filter "*$extension" | Where-Object { !$_.PSIsContainer }
 foreach ($file in $files) {
     Write-Host $file
-    $compileCommand = "MSBuild " + $file.FullName + " -t:REbuild -p:Configuration=Release;Platform=x64 -t:Clean -m:" + $CoreNumber
+    $compileCommand = "    MSBuild " + $file.FullName + " -t:REbuild -p:Configuration=Release;Platform=x64 -t:Clean -m:" + $CoreNumber
     $compileCommand | Out-File -FilePath $build -Append -Encoding Ascii
     $executableName = $file.Name.Substring(0, $file.Name.Length-4) + '.exe'
     Write-Host $executableName
@@ -78,14 +116,18 @@ foreach ($file in $files) {
     Write-Host $executablePath
     <#
     Execute the binary, wait for 10 seconds, kill the task
-    #>
-    $execution = 'start ' + $executablePath + ' /s'
+    
+    $execution = '    start ' + $executablePath + ' /s'
     $execution | Out-File -FilePath $build -Append -Encoding Ascii
-    $timeout = 'timeout /t 15'
+    $timeout = '    timeout /t 15'
     $timeout | Out-File -FilePath $build -Append -Encoding Ascii
-    $killTask = 'Taskkill /im ' + $executableName + ' /f'
+    $killTask = '    Taskkill /im ' + $executableName + ' /f'
     $killTask | Out-File -FilePath $build -Append -Encoding Ascii
+    #>
 }
+
+$update = ')'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
 <#
 set "endTime=%time: =0%"
 rem Get elapsed time:
@@ -109,3 +151,5 @@ $echoDuration = 'echo Start:    %startTime%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
 $echoDuration = 'echo End:      %endTime%'
 $echoDuration | Out-File -FilePath $build -Append -Encoding Ascii
+$update = 'endlocal'
+$update | Out-File -FilePath $build -Append -Encoding Ascii
