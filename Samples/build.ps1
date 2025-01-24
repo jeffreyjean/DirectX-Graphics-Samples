@@ -115,7 +115,7 @@ foreach ($file in $files) {
     $executablePath = $file.Directory.FullName + '\bin\x64\Release\' + $executableName
     Write-Host $executablePath
     <#
-    Execute the binary, wait for 10 seconds, kill the task
+    Execute the binary, wait for 15 seconds, kill the task
     
     $execution = '    start ' + $executablePath + ' /s'
     $execution | Out-File -FilePath $build -Append -Encoding Ascii
