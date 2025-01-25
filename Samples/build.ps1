@@ -108,11 +108,29 @@ $extension = ".sln"  # Replace with your desired file extension, e.g., ".pdf", "
 $files = Get-ChildItem -Path $folderPath -Recurse -Filter "*$extension" | Where-Object { !$_.PSIsContainer }
 foreach ($file in $files) {
     Write-Host $file
+    
     $compileCommand = "    MSBuild " + $file.FullName + " -t:REbuild -p:Configuration=Release;Platform=x64 -t:Clean -m:" + $CoreNumber
     $compileCommand | Out-File -FilePath $build -Append -Encoding Ascii
     $executableName = $file.Name.Substring(0, $file.Name.Length-4) + '.exe'
     Write-Host $executableName
     $executablePath = $file.Directory.FullName + '\bin\x64\Release\' + $executableName
+    Write-Host $executablePath
+    <#
+    Execute the binary, wait for 15 seconds, kill the task
+    
+    $execution = '    start ' + $executablePath + ' /s'
+    $execution | Out-File -FilePath $build -Append -Encoding Ascii
+    $timeout = '    timeout /t 15'
+    $timeout | Out-File -FilePath $build -Append -Encoding Ascii
+    $killTask = '    Taskkill /im ' + $executableName + ' /f'
+    $killTask | Out-File -FilePath $build -Append -Encoding Ascii
+    #>
+
+    $compileCommand = "    MSBuild " + $file.FullName + " -t:REbuild -p:Configuration=Release;Platform=ARM64 -t:Clean -m:" + $CoreNumber
+    $compileCommand | Out-File -FilePath $build -Append -Encoding Ascii
+    $executableName = $file.Name.Substring(0, $file.Name.Length-4) + '.exe'
+    Write-Host $executableName
+    $executablePath = $file.Directory.FullName + '\bin\ARM64\Release\' + $executableName
     Write-Host $executablePath
     <#
     Execute the binary, wait for 15 seconds, kill the task
