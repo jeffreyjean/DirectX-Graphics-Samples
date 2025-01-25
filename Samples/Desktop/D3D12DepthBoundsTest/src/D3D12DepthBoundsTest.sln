@@ -6,12 +6,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D12DepthBoundsTest", "D3D
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
+		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Debug|ARM64.Build.0 = Debug|ARM64
 		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Debug|x64.ActiveCfg = Debug|x64
 		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Debug|x64.Build.0 = Debug|x64
+		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Release|ARM64.ActiveCfg = Release|ARM64
+		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Release|ARM64.Build.0 = Release|ARM64
 		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Release|x64.ActiveCfg = Release|x64
 		{EDC25A65-E2D7-427E-8FEA-DB448AFD71AD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
